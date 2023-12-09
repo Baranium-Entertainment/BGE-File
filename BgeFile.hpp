@@ -88,7 +88,8 @@ struct BgeFile
     void Reopen(bool switchMode = true)
     {
         Close();
-        mWriter = !mWriter;
+        if (switchMode)
+            mWriter = !mWriter;
         Open(mPath);
     }
 
