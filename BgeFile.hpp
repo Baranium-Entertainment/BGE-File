@@ -206,7 +206,7 @@ struct BgeFile
         {
             c = Read<char>();
 
-            if (mEOF)
+            if (mEOF || c == 0)
                 break;
 
             build << c;
@@ -228,10 +228,7 @@ struct BgeFile
         {
             c = Read<char>();
 
-            if (mEOF)
-                break;
-
-            if (c == '\n')
+            if (mEOF || c == '\n' || c == 0)
                 break;
 
             build << c;
