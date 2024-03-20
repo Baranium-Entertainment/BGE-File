@@ -5,7 +5,7 @@
  * @version 1.0
  * @date 2023-12-05
  * 
- * @copyright Copyright (c) GAMINGNOOBdev 2023
+ * @copyright Copyright (c) GAMINGNOOBdev 2024
  */
 
 #ifndef __BGEFILE_HPP_
@@ -20,7 +20,11 @@
 #include <stdio.h>
 #include <string>
 
-#define BGE_LOG printf
+#ifndef BGEFILE_SILENCED
+#   define BGE_LOG printf
+#else
+#   define BGE_LOG()
+#endif
 
 #ifdef _WIN32
 #   include <sstream>
@@ -29,7 +33,7 @@
 #endif
 
 /**
- * Like a normal `FILE*` but more advenced
+ * Like a normal `FILE*` but more advanced
 */
 struct BgeFile
 {
@@ -72,6 +76,7 @@ struct BgeFile
             return;
         }
         mCursor = 0;
+        mEOF = false;
 
         fseek(mFileHandle, 0, SEEK_END);
         mSize = ftell(mFileHandle);
@@ -300,20 +305,6 @@ struct BgeFile
     }
 
     /**
-     * Sets the cursor position
-     * @param cursor New position in the file
-    */
-    void CursorSet(uint64_t cursor)
-    {
-        if (!mReady || mWriter)
-            return;
-
-        fseek(mFileHandle, cursor, SEEK_SET);
-
-        mCursor = cursor;
-    }
-
-    /**
      * Seeks to the position of the file relative to the cursor
      * @param offset Where to seek to
     */
@@ -328,14 +319,25 @@ struct BgeFile
     }
 
     /**
+     * Seek to a specific position in the file
+     * @param cursor New position in the file
+    */
+    void SeekTo(uint64_t cursor)
+    {
+        if (!mReady || mWriter)
+            return;
+
+        fseek(mFileHandle, cursor, SEEK_SET);
+
+        mCursor = cursor;
+    }
+
+    /**
      * Seeks to the start of the file
     */
     void SeekStart()
     {
-        if (!mReady)
-            return;
-
-        CursorSet(0);
+        SeekTo(0);
     }
 
     /**
