@@ -180,8 +180,11 @@ public:
 
     /**
      * Add a configuration property with a specific type
+     * 
+     * @note The `Name` variable of `property` will be ignored when adding the property
+     * 
      * @param name name of the property, not including the name of this section
-     * @param property the property object, can should contain the name of the property itself, not the full property "path"
+     * @param property the property object
     */
     void AddProperty(std::string name, BgeConfigProperty& property);
 
@@ -260,6 +263,9 @@ struct BgeConfig
 
     /**
      * Adds a configuration property with a specific type
+     * 
+     * @note The `Name` variable of `property` will be ignored when adding the property
+     * 
      * @param name name of the property
      * @param property the property object
     */
