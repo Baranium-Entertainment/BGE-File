@@ -23,7 +23,7 @@
 #ifndef BGEFILE_SILENCED
 #   define BGE_LOG printf
 #else
-#   define BGE_LOG()
+#   define BGE_LOG(text, ...)
 #endif
 
 #ifdef _WIN32
